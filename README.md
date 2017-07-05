@@ -4,7 +4,7 @@ Enables developers to add custom routes and templates to their WordPress theme. 
 ## Usage
 Include the WP-Router in your plugin, theme or child theme file. Require it in your functions.php file or use an autoloader. 
 
-### Create instance of WP_Router\Router
+### Create a new instance of WP_Router\Router
 Create a new instance of the Router class with the array of routes as an argument in the format displayed below. 
 
     $router = new WP_Router\Router( 
@@ -28,4 +28,4 @@ Include the specific templates in your theme. In the case above, you need to hav
 After adding new routes, do not forget to flush your permalinks. The easiest way to do is to head over to your permalink settings and save your settings. Please note that WP-Router only supports pretty permalinks.
 
 ### Result
-With the above example, you will have yourwebsite.dev/custom/ using the templates/custom.php and yourwebsite.dev/friedpizza/ using templates/another.php
+With the above example, you will have yourwebsite.dev/custom/ using templates/custom.php and yourwebsite.dev/friedpizza/ using templates/another.php
