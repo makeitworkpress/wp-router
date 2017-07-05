@@ -22,7 +22,7 @@ Create a new instance of the Router class with the array of routes as an argumen
 * Optionally, you can define a custom folder for your templates as a second argument and the custom variable by which a template is queried in the third argument. By default, the templates folder in your theme or child theme is expected.
 
 ### Include template
-Include the specific templates in your theme. In the case above, you need to have have a custom.php template in the folder /templates/ in your parent or child theme. Obviously, this will be another folder if you changed the second argument.
+Include the specific templates in your theme. In the case above, you need to have have a custom.php and an another.php template in the folder /templates/ in your parent or child theme. Obviously, this will be another folder if you changed the second argument.
 
 ### Flush Permalinks
 After adding new routes, do not forget to flush your permalinks. The easiest way to do is to head over to your permalink settings and save your settings. Please note that WP-Router only supports pretty permalinks.
