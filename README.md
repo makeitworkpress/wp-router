@@ -16,10 +16,10 @@ Create a new instance of the Router class with the array of routes as an argumen
         'template'   // The query var by which the template is identified, in this case through get_query_var('template'). 
     );
     
-*The keys of the routes array self indicate the names of the specific template and will also refer to the name of the specific file in your templates folder. 
-*The route key in the values of this array indicate the Regular Expression for the permalink, while the title key indicates an optional title that is displayed in the head section of your website. 
+* The keys of the routes array self indicate the names of the specific template and will also refer to the name of the specific file in your templates folder. 
+* The route key in the values of this array indicate the Regular Expression for the permalink, while the title key indicates an optional title that is displayed in the head section of your website. 
 
-*Optionally, you can define a custom folder for your templates as a second argument and the custom variable by which a template is queried in the third argument. By default, the templates folder in your theme or child theme is expected.
+* Optionally, you can define a custom folder for your templates as a second argument and the custom variable by which a template is queried in the third argument. By default, the templates folder in your theme or child theme is expected.
 
 ### Include template
 Include the specific templates in your theme. In the case above, you need to have have a custom.php template in the folder /templates/ in your parent or child theme. Obviously, this will be another folder if you changed the second argument.
