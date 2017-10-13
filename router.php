@@ -43,7 +43,7 @@ class Router {
      * Constructs the routes and custom query vars
      *
      * @param array     $routes     The array with routes
-     * @param string    $folder     The folder to search for templates
+     * @param string    $folder     The folder to search for templates. If this is a full path, this will be used instead
      * @param string    $queryVar   The query variable by which a template can be identified
      */
     public function __construct( Array $routes = [], $folder = 'templates', $queryVar = 'template' ) {
@@ -87,15 +87,16 @@ class Router {
     private function rewrite() {
         
         $routes     = $this->routes;
+        $structure  = $this->structure;
         $queryVar   = $this->queryVar;
         
         // Adds our rewrite rules based on our routes, and makes sure they are prefixed.
-        add_action('init', function() use( $routes, $queryVar ) {
+        add_action('init', function() use( $routes, $queryVar, $structure ) {
             
             // Watch our prefixes for pretty permalinks
             $prefix = '';
             
-            if( preg_match('/(?U)(.*)(\/%.*%\/)/', $this->structure, $matches) ) {             
+            if( preg_match('/(?U)(.*)(\/%.*%\/)/', $structure, $matches) ) {             
                 
                 if( ! empty($matches[1]) )                
                     $prefix = str_replace('/', '', $matches[1]) . '/';
@@ -127,23 +128,32 @@ class Router {
         
         add_filter( 'template_include', function( $template ) use( $folder, $queryVar ) {
             
-            global $wp_query;
             $name = get_query_var( $queryVar );
             
-            if( $name ) {
-                $template = locate_template( $folder . '/' . $name . '.php' );
-                
-                if( ! $template ) {
-                    $error = new WP_Error( 
-                        'missing_template', 
-                        sprintf( __('The file for the template %s does not exist', 'wp-router'), '<b>' . $name . '</b>') 
-                    );
-                    echo '<b>ERROR</b>:' . $error->get_error_message();
-                }
-                    
-                $wp_query->is_404       = false;
-                $wp_query->is_custom    = true;
+            if( ! $name ) {
+                return $template;
             }
+
+            // We can also use an absolute path for the folder
+            if( strpos( $folder, ABSPATH ) !== false ) {
+                $template = file_exists($folder . '/' . $name . '.php') ? $folder . '/' . $name . '.php' : false;
+            } else {
+                $template = locate_template( $folder . '/' . $name . '.php' );
+            }
+
+            // Set our query vars for the custom page       
+            global $wp_query;
+            $wp_query->is_404       = false;
+            $wp_query->is_custom    = true;            
+             
+            // Returns an error message if we don't have a template
+            if( ! $template ) {
+                $error = new WP_Error( 
+                    'missing_template', 
+                    sprintf( __('The file for the template %s does not exist', 'wp-router'), '<b>' . $name . '</b>') 
+                );
+                echo '<b>ERROR</b>:' . $error->get_error_message();
+            }            
             
             return apply_filters('wp_router_template', $template);
             
