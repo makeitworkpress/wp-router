@@ -152,7 +152,7 @@ class Router {
                     'missing_template', 
                     sprintf( __('The file for the template %s does not exist', 'wp-router'), '<b>' . $name . '</b>') 
                 );
-                echo '<b>ERROR</b>:' . $error->get_error_message();
+                echo $error->get_error_message();
             }            
             
             return apply_filters('wp_router_template', $template);
