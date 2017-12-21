@@ -7,7 +7,7 @@ Include the WP-Router in your plugin, theme or child theme file. Require it in y
 ### Create a new instance of WP_Router\Router
 Create a new instance of the Router class with the array of routes as an argument in the format displayed below. 
 
-    $router = new WP_Router\Router( 
+    $router = new MakeitWorkPress\WP_Router\Router( 
         [
             'custom'    => ['route' => custom/, 'title' => __('Custom Template Title')],
             'another'   => ['route' => friedpizza/, 'title' => __('Fried Pizza!')]

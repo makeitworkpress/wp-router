@@ -1,3 +1,22 @@
 {
-    "name": "wp-router"
+    "name": "makeitworkpress/wp-router",
+    "description": "This class allows to add basic routes for templates, extending WordPress templating capabilities.",
+    "license": "GPL",
+    "require": {
+        "php": ">=5.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "MakeitWorkPress\\WP_Router\\": "src"
+        }
+    },
+    "homepage": "https://github.com/makeitworkpress/wp-router",
+    "authors": [ 
+        {
+            "name": "Michiel Tramper",
+            "email": "michiel@makeitworkpress.com",
+            "homepage": "https://www.makeitworkpress.com"
+
+        } 
+    ]           
 }

@@ -4,7 +4,7 @@
  * This functions pretty well if you use pretty permalinks
  * Do not forget to flush (save) your permalinks after you have added new routes.
  */
-namespace WP_Router;
+namespace MakeitWorkPress\WP_Router;
 use WP_Error as WP_Error;
 
 defined( 'ABSPATH' ) or die( 'Go eat veggies!' );
