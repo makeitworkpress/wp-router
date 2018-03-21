@@ -1,6 +1,8 @@
 # wp-router
 Enables developers to add custom routes and templates to their WordPress theme. In other Words, you can easily add custom permalinks to your theme such as yourwebsite.dev/custom/ which in order point to a custom template.
 
+WP Router is maintained by [Make it WorkPress](https://www.makeitworkpress.com/wordpress-solutions/scripts/wp-router/).
+
 ## Usage
 Include the WP-Router in your plugin, theme or child theme file. Require it in your functions.php file or use an autoloader. 
 
