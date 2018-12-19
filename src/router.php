@@ -51,17 +51,23 @@ class Router {
         /**
          * Initial variables
          */
-        $this->folder    = $folder;
+        $this->folder    = apply_filters('wp_config_template_folder', $folder);
         $this->routes    = $routes;
         $this->structure = get_option('permalink_structure');
-        $this->queryVar  = $queryVar;
+        $this->queryVar  = apply_filters('wp_config_query_vars', $queryVar);
         
         /**
          * Add our custom query vars
          */
+        $queryVar        = $this->queryVar;
+
         add_filter( 'query_vars', function( $vars ) use( $queryVar ) {
-            
-            array_push($vars, $queryVar);
+
+            if( is_array($queryVar) ) {
+                $vars = array_merge($vars, $queryVar);
+            } else {
+                array_push($vars, $queryVar);
+            }
             
             return $vars;
             
