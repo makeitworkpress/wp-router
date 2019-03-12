@@ -4,7 +4,7 @@ Enables developers to add custom routes and templates to their WordPress theme. 
 WP Router is maintained by [Make it WorkPress](https://www.makeitworkpress.com/wordpress-solutions/scripts/wp-router/).
 
 ## Usage
-Include the WP-Router in your plugin, theme or child theme file. Require it in your functions.php file or use an autoloader. 
+Include the WP-Router in your plugin, theme or child theme files. Require it in your functions.php file or use a PHP autoloader. You can read more about autoloading in [the readme of wp-autoload](https://github.com/makeitworkpress/wp-autoload). 
 
 ### Create a new instance of WP_Router\Router
 Create a new instance of the Router class with the array of routes as an argument in the format displayed below. 
