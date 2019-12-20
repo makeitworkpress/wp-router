@@ -76,8 +76,9 @@ class Router {
         /**
          * Add our rewrites, but only if there are pretty permalinks
          */
-        if( $this->structure )
+        if( $this->structure ) {
             $this->rewrite();
+        }
         
         /**
          * Locate our templates and add additional settings
