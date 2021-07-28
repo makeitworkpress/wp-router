@@ -37,36 +37,36 @@ class Router {
      *
      * @access private
      */
-    private $queryVar;    
+    private $query_var;    
     
     /**
      * Constructs the routes and custom query vars
      *
      * @param array     $routes     The array with routes
      * @param string    $folder     The folder to search for templates. If this is a full path, this will be used instead
-     * @param string    $queryVar   The query variable by which a template can be identified
+     * @param string    $query_var   The query variable by which a template can be identified
      */
-    public function __construct( Array $routes = [], $folder = 'templates', $queryVar = 'template' ) {
+    public function __construct( Array $routes = [], $folder = 'templates', $query_var = 'template' ) {
         
         /**
          * Initial variables
          */
-        $this->folder    = apply_filters('wp_config_template_folder', $folder);
+        $this->folder    = apply_filters('wp_router_template_folder', $folder);
         $this->routes    = $routes;
         $this->structure = get_option('permalink_structure');
-        $this->queryVar  = apply_filters('wp_config_query_vars', $queryVar);
+        $this->query_var = apply_filters('wp_router_query_vars', $query_var);
         
         /**
          * Add our custom query vars
          */
-        $queryVar        = $this->queryVar;
+        $query_var        = $this->query_var;
 
-        add_filter( 'query_vars', function( $vars ) use( $queryVar ) {
+        add_filter( 'query_vars', function( $vars ) use( $query_var ) {
 
-            if( is_array($queryVar) ) {
-                $vars = array_merge($vars, $queryVar);
+            if( is_array($query_var) ) {
+                $vars = array_merge($vars, $query_var);
             } else {
-                array_push($vars, $queryVar);
+                array_push($vars, $query_var);
             }
             
             return $vars;
@@ -95,10 +95,10 @@ class Router {
         
         $routes     = $this->routes;
         $structure  = $this->structure;
-        $queryVar   = $this->queryVar;
+        $query_var  = $this->query_var;
         
         // Adds our rewrite rules based on our routes, and makes sure they are prefixed.
-        add_action('init', function() use( $routes, $queryVar, $structure ) {
+        add_action('init', function() use( $routes, $query_var, $structure ) {
             
             // Watch our prefixes for pretty permalinks
             $prefix = '';
@@ -116,7 +116,7 @@ class Router {
 
                 // Adds the rewrite rule
                 if( isset($properties['route']) )
-                    add_rewrite_rule( $prefix . $properties['route'] . '?$', 'index.php?' . $queryVar . '=' . $name, 'top' );
+                    add_rewrite_rule( $prefix . $properties['route'] . '?$', 'index.php?' . $query_var . '=' . $name, 'top' );
                 
             }
             
@@ -131,11 +131,11 @@ class Router {
 
         // Load the right template  
         $folder     = $this->folder;
-        $queryVar   = $this->queryVar;
+        $query_var  = $this->query_var;
         
-        add_filter( 'template_include', function( $template ) use( $folder, $queryVar ) {
+        add_filter( 'template_include', function( $template ) use( $folder, $query_var ) {
             
-            $name = get_query_var( $queryVar );
+            $name = get_query_var( $query_var );
             
             if( ! $name ) {
                 return $template;
@@ -169,9 +169,9 @@ class Router {
         // This defines the page title for our custom templates
         $routes = $this->routes;
         
-        add_filter( 'document_title_parts', function( $title ) use( $routes, $queryVar ) {
+        add_filter( 'document_title_parts', function( $title ) use( $routes, $query_var ) {
             
-            $name = get_query_var($queryVar);
+            $name = get_query_var($query_var);
             
             if( $name && isset($routes[$name]['title']) ) {
                 $title['title'] = $routes[$name]['title'];    
@@ -182,9 +182,9 @@ class Router {
         } );
         
         // Add custom body classes to the front-end of our application so we can style accordingly.
-        add_filter( 'body_class', function( $classes ) use( $queryVar ) {
+        add_filter( 'body_class', function( $classes ) use( $query_var ) {
             
-            $name = get_query_var($queryVar);
+            $name = get_query_var($query_var);
             
             if($name)
                 $classes[] = 'template-' . $name;
