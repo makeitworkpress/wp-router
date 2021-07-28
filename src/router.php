@@ -44,9 +44,9 @@ class Router {
      *
      * @param array     $routes     The array with routes
      * @param string    $folder     The folder to search for templates. If this is a full path, this will be used instead
-     * @param string    $query_var   The query variable by which a template can be identified
+     * @param string    $query_var  The query variable by which a template can be identified
      */
-    public function __construct( Array $routes = [], $folder = 'templates', $query_var = 'template' ) {
+    public function __construct( Array $routes = [], $folder = 'templates', $query_var = 'template', $debug = false ) {
         
         /**
          * Initial variables
@@ -85,6 +85,12 @@ class Router {
          */
         $this->locate();
 
+        if( $debug ) {
+            add_action('wp', function() {
+                global $wp_rewrite;
+                var_dump($wp_rewrite->rules);
+            });
+        }
         
     }
     
@@ -100,23 +106,24 @@ class Router {
         // Adds our rewrite rules based on our routes, and makes sure they are prefixed.
         add_action('init', function() use( $routes, $query_var, $structure ) {
             
-            // Watch our prefixes for pretty permalinks
+            // Watch our prefixes for pretty permalinks, which may include the /blog prefix
             $prefix = '';
-            
             if( preg_match('/(?U)(.*)(\/%.*%\/)/', $structure, $matches) ) {             
-                
-                if( ! empty($matches[1]) )                
+                if( ! empty($matches[1]) ) {              
                     $prefix = str_replace('/', '', $matches[1]) . '/';
-                
+                } 
             }
 
-            
             // Register our custom routes
             foreach( $routes as $name => $properties ) {
 
-                // Adds the rewrite rule
-                if( isset($properties['route']) )
-                    add_rewrite_rule( $prefix . $properties['route'] . '?$', 'index.php?' . $query_var . '=' . $name, 'top' );
+                // Adds the rewrite rule, both prefixed and not prefixed
+                if( isset($properties['route']) ) {
+                    if( $prefix ) {
+                        add_rewrite_rule( $prefix . $properties['route'] . '?$', 'index.php?' . $query_var . '=' . $name, 'top' );
+                    }
+                    add_rewrite_rule( $properties['route'] . '?$', 'index.php?' . $query_var . '=' . $name, 'top' );
+                }
                 
             }
             
@@ -136,6 +143,7 @@ class Router {
         add_filter( 'template_include', function( $template ) use( $folder, $query_var ) {
             
             $name = get_query_var( $query_var );
+
             
             if( ! $name ) {
                 return $template;
