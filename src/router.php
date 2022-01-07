@@ -14,6 +14,7 @@ class Router {
     /**
      * Contains the basefolder in which templates are stored
      *
+     * @var string
      * @access private
      */
     private $folder;    
@@ -21,6 +22,7 @@ class Router {
     /**
      * Contains our routes
      *
+     * @var array
      * @access private
      */
     private $routes;
@@ -28,6 +30,7 @@ class Router {
     /*
      * Our permalink structure
      *
+     * @var string
      * @access public
      */
     public $structure;
@@ -35,6 +38,7 @@ class Router {
     /**
      * Contains our query-variable for retrieving the right template
      *
+     * @var string|array
      * @access private
      */
     private $query_var;    
@@ -46,7 +50,7 @@ class Router {
      * @param string    $folder     The folder to search for templates. If this is a full path, this will be used instead
      * @param string    $query_var  The query variable by which a template can be identified
      */
-    public function __construct( Array $routes = [], $folder = 'templates', $query_var = 'template', $debug = false ) {
+    public function __construct( array $routes = [], $folder = 'templates', $query_var = 'template', $debug = false ) {
         
         /**
          * Initial variables
@@ -97,7 +101,7 @@ class Router {
     /**
      * Adds the necessary rewrites for the routes
      */
-    private function rewrite() {
+    private function rewrite(): void {
         
         $routes     = $this->routes;
         $structure  = $this->structure;
@@ -134,7 +138,7 @@ class Router {
     /**
      * Locate our custom templates and add the right settings for this template
      */
-    private function locate() {
+    private function locate(): void {
 
         // Load the right template  
         $folder     = $this->folder;
